@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ContentModelStore">
-    <e p="C:\Users\Admin\.Rider2019.3\system\extResources" t="IncludeRecursive" />
-    <e p="C:\Users\Admin\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_HiProtobuf.167203041.00" t="ExcludeRecursive" />
-    <e p="D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf" t="ExcludeRecursive" />
-    <e p="D:\TPLibs\HiExcel2Protobuf\src" t="IncludeFlat">
+    <e p="C:\Users\Fan\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\Fan\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_HiProtobuf.1517754359.00" t="ExcludeRecursive" />
+    <e p="D:\VCS\HiExcel2Protobuf\Example\HiProtobuf" t="ExcludeRecursive" />
+    <e p="D:\VCS\HiExcel2Protobuf\src" t="IncludeFlat">
       <e p="HiProtobuf.Lib" t="IncludeRecursive">
         <e p="Common.cs" t="Include" />
         <e p="Compiler.cs" t="Include" />

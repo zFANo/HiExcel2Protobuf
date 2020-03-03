@@ -27,7 +27,7 @@ namespace HiProtobuf.Lib
 // Modified: zf-ano@163.com
 
 // [START syntax declaration]
-syntax = ""proto3""
+syntax = ""proto3"";
 // [END syntax declaration]
 ";
 
@@ -182,7 +182,7 @@ message {0}List
             ProcessList();
 
             string pkgName = _pkgName;
-            if (string.IsNullOrEmpty(_pkgForCs))
+            if (!string.IsNullOrEmpty(_pkgForCs))
             {
                 pkgName = _pkgForCs;
             }
@@ -241,7 +241,13 @@ message {0}List
             {
                 var type = ((Range) _range.Cells[i, _varTypeCol]).Value2.ToString();
                 var name = ((Range) _range.Cells[i, _varNameCol]).Value2.ToString();
+                
                 str += GetVariableString(type, name, index);
+                if (i < _varRowEnd)
+                {
+                    str += "\n";
+                }
+                
                 _varType.Add(name, type);
             }
 
@@ -266,7 +272,7 @@ message {0}List
                 type = "repeated " + type.Split('[')[0];
             }
 
-            str += $"\t{type} {name} = {index};\n";
+            str += $"\t{type} {name} = {index};";
             return str;
         }
 

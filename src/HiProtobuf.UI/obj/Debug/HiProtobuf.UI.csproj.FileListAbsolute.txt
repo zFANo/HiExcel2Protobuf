@@ -43,3 +43,13 @@ D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csproj.Gene
 D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csproj.CopyComplete
 D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.exe
 D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.pdb
+D:\VCS\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.UI.exe.config
+D:\VCS\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.UI.exe
+D:\VCS\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.UI.pdb
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csprojAssemblyReference.cache
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.HiProtobuf.resources
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.Properties.Resources.resources
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csproj.GenerateResource.cache
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csproj.CopyComplete
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.exe
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.pdb

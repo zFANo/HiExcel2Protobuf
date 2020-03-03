@@ -25,3 +25,9 @@ D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.Lib.dll
 D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.Lib.pdb
 D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csprojAssemblyReference.cache
 D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csproj.CopyComplete
+D:\VCS\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.Lib.dll
+D:\VCS\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.Lib.pdb
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csprojAssemblyReference.cache
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csproj.CopyComplete
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.dll
+D:\VCS\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.pdb

@@ -85,6 +85,7 @@ namespace HiProtobuf.Lib
                             var variableValue = ((Range) usedRange.Cells[rowIndex, columnIndex]).Text.ToString();
                             var insType = ins.GetType();
                             var fieldName = variableName + "_";
+                            fieldName = fieldName.Substring(0, 1).ToLower() + fieldName.Substring(1);
                             FieldInfo insField =
                                 insType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
                             var value = GetVariableValue(variableType, variableValue);
@@ -110,8 +111,69 @@ namespace HiProtobuf.Lib
 
         object GetVariableValue(string type, string value)
         {
-            if (type == Common.double_)
-                return double.Parse(value);
+            if (string.IsNullOrEmpty(value))
+            {
+                if (type == Common.double_)
+                    return (double) 0;
+                if (type == Common.float_)
+                    return (float) 0;
+                if (type == Common.int32_)
+                    return (int) 0;
+                if (type == Common.int64_)
+                    return (long) 0;
+                if (type == Common.uint32_)
+                    return (uint) 0;
+                if (type == Common.uint64_)
+                    return (ulong) 0;
+                if (type == Common.sint32_)
+                    return (int) 0;
+                if (type == Common.sint64_)
+                    return (long) 0;
+                if (type == Common.fixed32_)
+                    return (uint) 0;
+                if (type == Common.fixed64_)
+                    return (ulong) 0;
+                if (type == Common.sfixed32_)
+                    return (int) 0;
+                if (type == Common.sfixed64_)
+                    return (long) 0;
+                if (type == Common.bool_)
+                    return false;
+                if (type == Common.string_)
+                    return "";
+                if (type == Common.bytes_)
+                    return ByteString.Empty;
+                if (type == Common.double_s)
+                    return new RepeatedField<double>();
+                if (type == Common.float_s)
+                    return new RepeatedField<float>();
+                if (type == Common.int32_s)
+                    return new RepeatedField<int>();
+                if (type == Common.int64_s)
+                    return new RepeatedField<long>();
+                if (type == Common.uint32_s)
+                    return new RepeatedField<uint>();
+                if (type == Common.uint64_s)
+                    return new RepeatedField<ulong>();
+                if (type == Common.sint32_s)
+                    return new RepeatedField<int>();
+                if (type == Common.sint64_s)
+                    return new RepeatedField<long>();
+                if (type == Common.fixed32_s)
+                    return new RepeatedField<uint>();
+                if (type == Common.fixed64_s)
+                    return new RepeatedField<ulong>();
+                if (type == Common.sfixed32_s)
+                    return new RepeatedField<int>();
+                if (type == Common.sfixed64_s)
+                    return new RepeatedField<long>();
+                if (type == Common.bool_s)
+                    return new RepeatedField<bool>();
+                if (type == Common.string_s)
+                    return new RepeatedField<string>();
+                AssertThat.Fail("Type error");
+                return null;
+            }
             if (type == Common.float_)
                 return float.Parse(value);
             if (type == Common.int32_)
@@ -301,7 +363,7 @@ namespace HiProtobuf.Lib
         void Serialize(object obj)
         {
             var type = obj.GetType();
-            var path = Settings.Export_Folder + Settings.dat_folder + "/" + type.Name + ".dat";
+            var path = Settings.Export_Folder + Settings.dat_folder + "/" + type.Name + ".bytes";
             using (var output = File.Create(path))
             {
                 MessageExtensions.WriteTo((IMessage)obj, output);
