@@ -91,5 +91,11 @@ namespace HiProtobuf.UI
             Log.Info("导出结束");
             Config.Save();
         }
+
+        private void textBox6_TextChanged(object sender, EventArgs e)
+        {
+            textBox6.SelectionStart = textBox6.TextLength;
+            textBox6.ScrollToCaret();
+        }
     }
 }

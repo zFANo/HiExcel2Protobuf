@@ -121,6 +121,7 @@
             this.textBox6.ScrollBars = System.Windows.Forms.ScrollBars.Both;
             this.textBox6.Size = new System.Drawing.Size(819, 522);
             this.textBox6.TabIndex = 11;
+            this.textBox6.TextChanged += new System.EventHandler(this.textBox6_TextChanged);
             // 
             // HiProtobuf
             // 

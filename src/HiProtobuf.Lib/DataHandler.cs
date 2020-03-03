@@ -14,6 +14,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using HiFramework.Log;
 
 namespace HiProtobuf.Lib
 {
@@ -21,6 +22,7 @@ namespace HiProtobuf.Lib
     {
         private Assembly _assembly;
         private object _listClzIns;
+
         public DataHandler()
         {
             var folder = Settings.Export_Folder + Settings.dat_folder;
@@ -28,13 +30,23 @@ namespace HiProtobuf.Lib
             {
                 Directory.Delete(folder, true);
             }
+
             Directory.CreateDirectory(folder);
         }
 
         public void Process()
         {
-            var dllPath = Settings.Export_Folder + Settings.language_folder + Settings.csharp_dll_folder + Compiler.DllName;
-            _assembly = Assembly.LoadFrom(dllPath);
+            var dllPath = Settings.Export_Folder + Settings.language_folder + Settings.csharp_dll_folder +
+                          Compiler.DllName;
+            if (!File.Exists(dllPath))
+            {
+                Log.Info($"未找到生成的{dllPath}，请检查数据表是否正确或着反馈 zf-ano@163.com");
+                return;
+            }
+
+            byte[] assemblyBytes = File.ReadAllBytes(dllPath);
+            _assembly = Assembly.Load(assemblyBytes);
+
             var protoFolder = Settings.Export_Folder + Settings.proto_folder;
             string[] files = Directory.GetFiles(protoFolder, "*.proto", SearchOption.AllDirectories);
             for (int i = 0; i < files.Length; i++)
@@ -44,6 +56,7 @@ namespace HiProtobuf.Lib
                 DataInfo.Data clzData = DataInfo.AllDataClassInfo[protoName];
                 _listClzIns = _assembly.CreateInstance($"{clzData.PkgName}.{clzData.ListClzName}");
                 string excelPath = Settings.Excel_Folder + "/" + clzData.ExcelName + ".xlsx";
+                Log.Info($"开始导出{clzData.ExcelName}.xlsx数据");
                 ProcessData(excelPath, clzData);
             }
         }
@@ -57,7 +70,7 @@ namespace HiProtobuf.Lib
             {
                 int pageCount = workbooks.Sheets.Count;
                 AssertThat.IsTrue(pageCount > 2, "Excel's page count MUST > 2");
-                for (int pageIndex = 3; pageIndex <= workbooks.Sheets.Count; pageIndex++)
+                for (int pageIndex = 3; pageIndex <= pageCount; pageIndex++)
                 {
                     var sheet = workbooks.Sheets[pageIndex];
                     AssertThat.IsNotNull(sheet, "Excel's sheet is null");
@@ -66,6 +79,12 @@ namespace HiProtobuf.Lib
                     var usedRange = worksheet.UsedRange;
                     int rowCount = usedRange.Rows.Count;
                     int colCount = usedRange.Columns.Count;
+                    if (rowCount < 2)
+                    {
+                        Log.Info($"{clzData.ExcelName}.xlsx的第{pageIndex}页无数据，跳过...");
+                        continue;
+                    }
+
                     for (int rowIndex = 2; rowIndex <= rowCount; rowIndex++)
                     {
                         var excel_Type = _listClzIns.GetType();
@@ -73,27 +92,32 @@ namespace HiProtobuf.Lib
                         var dataIns = dataProp.GetValue(_listClzIns);
                         var dataType = dataProp.PropertyType;
                         var ins = _assembly.CreateInstance($"{clzData.PkgName}.{clzData.DataClzName}");
-                        var addMethod = dataType.GetMethod("Add", new [] {ins.GetType()});
+                        var addMethod = dataType.GetMethod("Add", new[] {ins.GetType()});
                         for (int columnIndex = 1; columnIndex <= colCount; columnIndex++)
                         {
-                            var variableName = ((Range) usedRange.Cells[1, columnIndex]).Text.ToString();
+                            string variableName = ((Range) usedRange.Cells[1, columnIndex]).Text.ToString();
                             if (string.IsNullOrEmpty(variableName))
                             {
                                 continue;
                             }
+
                             var variableType = clzData.VarType[variableName];
                             var variableValue = ((Range) usedRange.Cells[rowIndex, columnIndex]).Text.ToString();
                             var insType = ins.GetType();
-                            var fieldName = variableName + "_";
+                            var fieldName = variableName.Replace("_", "") + "_";
                             fieldName = fieldName.Substring(0, 1).ToLower() + fieldName.Substring(1);
                             FieldInfo insField =
                                 insType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
                             var value = GetVariableValue(variableType, variableValue);
                             insField.SetValue(ins, value);
                         }
+
                         addMethod.Invoke(dataIns, new[] {ins});
                     }
+
+                    Log.Info($"{clzData.ExcelName}.xlsx的第{pageIndex}页有{rowCount - 1}条数据，导出完毕");
                 }
+
                 Serialize(_listClzIns);
             }
             catch (Exception e)
@@ -174,6 +198,7 @@ namespace HiProtobuf.Lib
                 AssertThat.Fail("Type error");
                 return null;
             }
+
             if (type == Common.float_)
                 return float.Parse(value);
             if (type == Common.int32_)
@@ -211,8 +236,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(double.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.float_s)
             {
                 string data = value.Trim('"');
@@ -222,8 +249,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(float.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.int32_s)
             {
                 string data = value.Trim('"');
@@ -233,8 +262,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(int.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.int64_s)
             {
                 string data = value.Trim('"');
@@ -244,8 +275,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(long.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.uint32_s)
             {
                 string data = value.Trim('"');
@@ -255,8 +288,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(uint.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.uint64_s)
             {
                 string data = value.Trim('"');
@@ -266,8 +301,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(ulong.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.sint32_s)
             {
                 string data = value.Trim('"');
@@ -277,8 +314,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(int.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.sint64_s)
             {
                 string data = value.Trim('"');
@@ -288,8 +327,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(long.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.fixed32_s)
             {
                 string data = value.Trim('"');
@@ -299,8 +340,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(uint.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.fixed64_s)
             {
                 string data = value.Trim('"');
@@ -310,8 +353,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(ulong.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.sfixed32_s)
             {
                 string data = value.Trim('"');
@@ -321,8 +366,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(int.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.sfixed64_s)
             {
                 string data = value.Trim('"');
@@ -332,8 +379,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(long.Parse(datas[i]));
                 }
+
                 return newValue;
             }
+
             if (type == Common.bool_s)
             {
                 string data = value.Trim('"');
@@ -343,8 +392,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(datas[i] == "1");
                 }
+
                 return newValue;
             }
+
             if (type == Common.string_s)
             {
                 string data = value.Trim('"');
@@ -354,8 +405,10 @@ namespace HiProtobuf.Lib
                 {
                     newValue.Add(datas[i]);
                 }
+
                 return newValue;
             }
+
             AssertThat.Fail("Type error");
             return null;
         }
@@ -366,7 +419,7 @@ namespace HiProtobuf.Lib
             var path = Settings.Export_Folder + Settings.dat_folder + "/" + type.Name + ".bytes";
             using (var output = File.Create(path))
             {
-                MessageExtensions.WriteTo((IMessage)obj, output);
+                MessageExtensions.WriteTo((IMessage) obj, output);
             }
         }
     }
