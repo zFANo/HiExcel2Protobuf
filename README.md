@@ -1,5 +1,8 @@
 # HiExcel2Protobuf(Excel转Protobuf工具)
 
+#### 修改（zfano@163.com）
+- Excel格式改变，请参照项目中Item.xlsx样例
+
 #### 功能说明
 - 将Excel文件生成protobuf文件和protobuf数据
 - 目前支持生成五种语言C++(生成.cpp),C#(生成.cs和.dll),Golang(生成.go),Java(生成.java),Python(生成.py)
@@ -29,10 +32,6 @@
 - 支持对应的数组类型,数据分割用|
 
   ![qAn9ZhK3fO](Others/qAn9ZhK3fO.png)
-- Excel配置格式如下:
-  - 第一行为注释说明
-  - 第二行为变量类型
-  - 第三行为变量命名
 
   ![icZblwSnCx](Others/icZblwSnCx.png)
 - 运行时使用如下:
