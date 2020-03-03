@@ -19,3 +19,9 @@ D:\MyGit\github\HiProtobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.pdb
 D:\MyGit\github\HiProtobuf\Example\HiProtobuf\HiProtobuf.Lib.dll
 D:\MyGit\github\HiProtobuf\Example\HiProtobuf\HiProtobuf.Lib.pdb
 D:\MyGit\github\HiProtobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csprojAssemblyReference.cache
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.dll
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.pdb
+D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.Lib.dll
+D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.Lib.pdb
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csprojAssemblyReference.cache
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.Lib\obj\Debug\HiProtobuf.Lib.csproj.CopyComplete

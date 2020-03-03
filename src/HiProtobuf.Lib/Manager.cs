@@ -3,6 +3,7 @@
  * 
  * Document: https://github.com/hiramtan/HiProtobuf
  * Author: hiramtan@live.com
+ * Modifier: zf-ano@163.com
  ****************************************************************************/
 
 using HiFramework.Log;
@@ -35,7 +36,7 @@ namespace HiProtobuf.Lib
             new LanguageGenerater().Process();
             Log.Info("生成语言结束");
             Log.Info("开始编译语言");
-            new Compiler().Porcess();
+            new Compiler().Process();
             Log.Info("编译语言结束");
             Log.Info("开始生成数据");
             new DataHandler().Process();

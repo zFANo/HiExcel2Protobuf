@@ -3,6 +3,7 @@
  * 
  * Document: https://github.com/hiramtan/HiProtobuf
  * Author: hiramtan@live.com
+ * Modifier: zf-ano@163.com
  ****************************************************************************/
 
 using System;
@@ -11,6 +12,7 @@ using Microsoft.Office.Interop.Excel;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using HiFramework.Log;
 
 namespace HiProtobuf.Lib
 {
@@ -23,6 +25,7 @@ namespace HiProtobuf.Lib
             {
                 Directory.Delete(path, true);
             }
+
             Directory.CreateDirectory(path);
         }
 
@@ -33,10 +36,11 @@ namespace HiProtobuf.Lib
             for (int i = 0; i < files.Length; i++)
             {
                 var path = files[i];
-                if (path.Contains("~$"))//已打开的表格格式
+                if (path.Contains("~$")) //已打开的表格格式
                 {
                     continue;
                 }
+
                 ProcessExcel(path);
             }
         }
@@ -48,23 +52,16 @@ namespace HiProtobuf.Lib
             var workbooks = excelApp.Workbooks.Open(path);
             try
             {
-                var sheet = workbooks.Sheets[1];
+                int pageCount = workbooks.Sheets.Count;
+                AssertThat.IsTrue(pageCount > 1, "Excel's page count MUST > 1");
+                var sheet = workbooks.Sheets[2];
                 AssertThat.IsNotNull(sheet, "Excel's sheet is null");
                 Worksheet worksheet = sheet as Worksheet;
                 AssertThat.IsNotNull(sheet, "Excel's worksheet is null");
+
                 var usedRange = worksheet.UsedRange;
-                int rowCount = usedRange.Rows.Count;
-                int colCount = usedRange.Columns.Count;
-                //for (int i = 1; i <= rowCount; i++)
-                //{
-                //    for (int j = 1; j <= colCount; j++)
-                //    {
-                //        var value = ((Range)usedRange.Cells[i, j]).Value2;
-                //        var str = value.ToString();
-                //    }
-                //}
                 var name = Path.GetFileNameWithoutExtension(path);
-                new ProtoGenerater(name, rowCount, colCount, usedRange).Process();
+                new ProtoGenerator(name, usedRange).Process();
             }
             catch (Exception e)
             {

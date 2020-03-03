@@ -33,3 +33,13 @@ D:\MyGit\github\HiProtobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.pdb
 D:\MyGit\github\HiProtobuf\Example\HiProtobuf\HiProtobuf.UI.exe.config
 D:\MyGit\github\HiProtobuf\Example\HiProtobuf\HiProtobuf.UI.exe
 D:\MyGit\github\HiProtobuf\Example\HiProtobuf\HiProtobuf.UI.pdb
+D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.UI.exe.config
+D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.UI.exe
+D:\TPLibs\HiExcel2Protobuf\Example\HiProtobuf\HiProtobuf.UI.pdb
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csprojAssemblyReference.cache
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.HiProtobuf.resources
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.Properties.Resources.resources
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csproj.GenerateResource.cache
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.csproj.CopyComplete
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.exe
+D:\TPLibs\HiExcel2Protobuf\src\HiProtobuf.UI\obj\Debug\HiProtobuf.UI.pdb

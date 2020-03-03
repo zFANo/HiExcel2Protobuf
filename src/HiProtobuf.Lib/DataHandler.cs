@@ -3,6 +3,7 @@
  * 
  * Document: https://github.com/hiramtan/HiProtobuf
  * Author: hiramtan@live.com
+ * Modifier: zf-ano@163.com
  ****************************************************************************/
 
 using Google.Protobuf;
@@ -10,6 +11,7 @@ using Google.Protobuf.Collections;
 using HiFramework.Assert;
 using Microsoft.Office.Interop.Excel;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -18,7 +20,7 @@ namespace HiProtobuf.Lib
     internal class DataHandler
     {
         private Assembly _assembly;
-        private object _excelIns;
+        private object _listClzIns;
         public DataHandler()
         {
             var folder = Settings.Export_Folder + Settings.dat_folder;
@@ -38,53 +40,60 @@ namespace HiProtobuf.Lib
             for (int i = 0; i < files.Length; i++)
             {
                 string protoPath = files[i];
-                string name = Path.GetFileNameWithoutExtension(protoPath);
-                string excelInsName = "HiProtobuf.Excel_" + name;
-                _excelIns = _assembly.CreateInstance(excelInsName);
-                string excelPath = Settings.Excel_Folder + "/" + name + ".xlsx";
-                ProcessData(excelPath);
+                string protoName = Path.GetFileNameWithoutExtension(protoPath);
+                DataInfo.Data clzData = DataInfo.AllDataClassInfo[protoName];
+                _listClzIns = _assembly.CreateInstance($"{clzData.PkgName}.{clzData.ListClzName}");
+                string excelPath = Settings.Excel_Folder + "/" + clzData.ExcelName + ".xlsx";
+                ProcessData(excelPath, clzData);
             }
         }
 
-        private void ProcessData(string path)
+        private void ProcessData(string path, DataInfo.Data clzData)
         {
             AssertThat.IsTrue(File.Exists(path), "Excel file can not find");
-            var name = Path.GetFileNameWithoutExtension(path);
             var excelApp = new Application();
             var workbooks = excelApp.Workbooks.Open(path);
             try
             {
-                var sheet = workbooks.Sheets[1];
-                AssertThat.IsNotNull(sheet, "Excel's sheet is null");
-                Worksheet worksheet = sheet as Worksheet;
-                AssertThat.IsNotNull(sheet, "Excel's worksheet is null");
-                var usedRange = worksheet.UsedRange;
-                int rowCount = usedRange.Rows.Count;
-                int colCount = usedRange.Columns.Count;
-                for (int i = 4; i <= rowCount; i++)
+                int pageCount = workbooks.Sheets.Count;
+                AssertThat.IsTrue(pageCount > 2, "Excel's page count MUST > 2");
+                for (int pageIndex = 3; pageIndex <= workbooks.Sheets.Count; pageIndex++)
                 {
-                    var excel_Type = _excelIns.GetType();
-                    var dataProp = excel_Type.GetProperty("Data");
-                    var dataIns = dataProp.GetValue(_excelIns);
-                    var dataType = dataProp.PropertyType;
-                    var ins = _assembly.CreateInstance("HiProtobuf." + name);
-                    var addMethod = dataType.GetMethod("Add", new Type[] {typeof(int), ins.GetType()});
-                    int id = (int) ((Range) usedRange.Cells[i, 1]).Value2;
-                    addMethod.Invoke(dataIns, new[] {id, ins});
-                    for (int j = 1; j <= colCount; j++)
+                    var sheet = workbooks.Sheets[pageIndex];
+                    AssertThat.IsNotNull(sheet, "Excel's sheet is null");
+                    Worksheet worksheet = sheet as Worksheet;
+                    AssertThat.IsNotNull(sheet, "Excel's worksheet is null");
+                    var usedRange = worksheet.UsedRange;
+                    int rowCount = usedRange.Rows.Count;
+                    int colCount = usedRange.Columns.Count;
+                    for (int rowIndex = 2; rowIndex <= rowCount; rowIndex++)
                     {
-                        var variableType = ((Range) usedRange.Cells[2, j]).Text.ToString();
-                        var variableName = ((Range) usedRange.Cells[3, j]).Text.ToString();
-                        var variableValue = ((Range) usedRange.Cells[i, j]).Text.ToString();
-                        var insType = ins.GetType();
-                        var fieldName = variableName + "_";
-                        FieldInfo insField =
-                            insType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
-                        var value = GetVariableValue(variableType, variableValue);
-                        insField.SetValue(ins, value);
+                        var excel_Type = _listClzIns.GetType();
+                        var dataProp = excel_Type.GetProperty("List");
+                        var dataIns = dataProp.GetValue(_listClzIns);
+                        var dataType = dataProp.PropertyType;
+                        var ins = _assembly.CreateInstance($"{clzData.PkgName}.{clzData.DataClzName}");
+                        var addMethod = dataType.GetMethod("Add", new [] {ins.GetType()});
+                        for (int columnIndex = 1; columnIndex <= colCount; columnIndex++)
+                        {
+                            var variableName = ((Range) usedRange.Cells[1, columnIndex]).Text.ToString();
+                            if (string.IsNullOrEmpty(variableName))
+                            {
+                                continue;
+                            }
+                            var variableType = clzData.VarType[variableName];
+                            var variableValue = ((Range) usedRange.Cells[rowIndex, columnIndex]).Text.ToString();
+                            var insType = ins.GetType();
+                            var fieldName = variableName + "_";
+                            FieldInfo insField =
+                                insType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+                            var value = GetVariableValue(variableType, variableValue);
+                            insField.SetValue(ins, value);
+                        }
+                        addMethod.Invoke(dataIns, new[] {ins});
                     }
                 }
-                Serialize(_excelIns);
+                Serialize(_listClzIns);
             }
             catch (Exception e)
             {
