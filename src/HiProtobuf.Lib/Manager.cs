@@ -35,7 +35,7 @@ namespace HiProtobuf.Lib
             new ProtoHandler().Process();
             Log.Info("生成协议结束");
             Log.Info("开始生成语言");
-            new LanguageGenerater().Process();
+            new LanguageGenerator().Process();
             Log.Info("生成语言结束");
             Log.Info("开始编译语言");
             new Compiler().Process();

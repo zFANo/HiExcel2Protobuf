@@ -3,13 +3,14 @@
  * 
  * Document: https://github.com/hiramtan/HiProtobuf
  * Author: hiramtan@live.com
+ * Modifier: zf-ano@163.com
  ****************************************************************************/
 using System.IO;
 using HiFramework.Log;
 
 namespace HiProtobuf.Lib
 {
-    internal class LanguageGenerater
+    internal class LanguageGenerator
     {
         private string _languageFolder;
         public void Process()

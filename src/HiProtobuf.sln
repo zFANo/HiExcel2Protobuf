@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiProtobuf.Lib", "HiProtobu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiProtobuf.Test", "HiProtobuf.Test\HiProtobuf.Test.csproj", "{71D39BEB-DF52-4E8F-B61E-5DD89B0E5DBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiProtobufCommandLine", "HiProtobufCommandLine\HiProtobufCommandLine.csproj", "{8285FEC8-1D06-43C4-A6A3-F9D74E8CE2F2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HiProtobuf.CommandLine", "HiProtobuf.CommandLine\HiProtobuf.CommandLine.csproj", "{8285FEC8-1D06-43C4-A6A3-F9D74E8CE2F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
