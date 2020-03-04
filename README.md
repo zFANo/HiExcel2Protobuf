@@ -1,6 +1,6 @@
 # HiExcel2Protobuf(Excel转Protobuf工具)
 
-#### 修改（zfano@163.com）
+#### 修改（zf-ano@163.com）
 - Excel格式改变，请参照项目中Item.xlsx样例
 
 #### 功能说明
