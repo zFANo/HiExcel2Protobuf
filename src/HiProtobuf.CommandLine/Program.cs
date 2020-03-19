@@ -45,6 +45,7 @@ namespace HiProtobufCommandLine
         {
             if (args.Length < 6)
             {
+                PrintHelp();
                 return;
             }
             
@@ -79,6 +80,7 @@ namespace HiProtobufCommandLine
             if (paramErr)
             {
                 Console.WriteLine($"HiProtobuf Export occue error.");
+                PrintHelp();
                 return;
             }
             
