@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using HiFramework.Assert;
+using HiFramework.Log;
 using Microsoft.Office.Interop.Excel;
 
 namespace HiProtobuf.Lib
@@ -107,22 +108,22 @@ message {0}List
             _range = range;
             _varType = new Dictionary<string, string>();
 
-            _nameComment = ((Range) _range.Cells[1, 1]).Value2.ToString();
-            _name = ((Range) _range.Cells[1, 2]).Value2.ToString();
-            _pkgName = ((Range) _range.Cells[1, 3]).Value2.ToString();
-            _pkgForCs = ((Range) _range.Cells[1, 4]).Value2.ToString();
+            _nameComment = ((Range) _range.Cells[1, 1]).Text.ToString();
+            _name = ((Range) _range.Cells[1, 2]).Text.ToString();
+            _pkgName = ((Range) _range.Cells[1, 3]).Text.ToString();
+            _pkgForCs = ((Range) _range.Cells[1, 4]).Text.ToString();
             if (_pkgForCs.Equals("CS_PKG_NAME"))
             {
                 _pkgForCs = null;
             }
 
-            _pkgForJava = ((Range) _range.Cells[1, 5]).Value2.ToString();
+            _pkgForJava = ((Range) _range.Cells[1, 5]).Text.ToString();
             if (_pkgForJava.Equals("JAVA_PKG_NAME"))
             {
                 _pkgForJava = null;
             }
 
-            _classNameForJava = ((Range) _range.Cells[1, 6]).Value2.ToString();
+            _classNameForJava = ((Range) _range.Cells[1, 6]).Text.ToString();
             if (_classNameForJava.Equals("JAVA_CLASS_OUTER_NAME"))
             {
                 _classNameForJava = null;
@@ -135,26 +136,26 @@ message {0}List
                 bool finish = false;
                 for (int col = 1; col <= colCount; col++)
                 {
-                    string cellVal = _range.Cells[row, col].Value2.ToString();
-                    if (cellVal.Equals(tag_ProtoBuf_Start))
+                    string cellVal = _range.Cells[row, col].Text.ToString();
+                    if (tag_ProtoBuf_Start.Equals(cellVal))
                     {
                         _varRowStart = row + 2;
                         break;
                     }
 
-                    if (cellVal.Equals(tag_ProtoBuf_End))
+                    if (tag_ProtoBuf_End.Equals(cellVal))
                     {
                         _varRowEnd = row - 1;
                         finish = true;
                         break;
                     }
 
-                    if (cellVal.Equals(tag_ProtoBuf_VarName))
+                    if (tag_ProtoBuf_VarName.Equals(cellVal))
                     {
                         _varNameCol = col;
                     }
 
-                    if (cellVal.Equals(tag_ProtoBuf_VarType))
+                    if (tag_ProtoBuf_VarType.Equals(cellVal))
                     {
                         _varTypeCol = col;
                         colCount = _varTypeCol;
@@ -200,6 +201,12 @@ message {0}List
             }
 
             string listClzName = $"{_name}List";
+            if (DataInfo.AllDataClassInfo.ContainsKey(listClzName))
+            {
+                Log.Info(
+                    $"有重复定义的类名： {DataInfo.AllDataClassInfo[listClzName].ExcelName}--{DataInfo.AllDataClassInfo[listClzName].ListClzName} <===> {_fileName}--{listClzName}");
+                return;
+            }
             DataInfo.AllDataClassInfo.Add(listClzName,
                 new DataInfo.Data(pkgName, listClzName, _name, _fileName, _varType));
         }
@@ -239,8 +246,8 @@ message {0}List
             var str = "";
             for (int i = _varRowStart, index = 1; i <= _varRowEnd; i++, index++)
             {
-                var type = ((Range) _range.Cells[i, _varTypeCol]).Value2.ToString();
-                var name = ((Range) _range.Cells[i, _varNameCol]).Value2.ToString();
+                var type = ((Range) _range.Cells[i, _varTypeCol]).Text.ToString();
+                var name = ((Range) _range.Cells[i, _varNameCol]).Text.ToString();
                 
                 str += GetVariableString(type, name, index);
                 if (i < _varRowEnd)

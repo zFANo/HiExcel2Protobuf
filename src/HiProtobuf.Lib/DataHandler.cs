@@ -104,10 +104,21 @@ namespace HiProtobuf.Lib
                             var variableType = clzData.VarType[variableName];
                             var variableValue = ((Range) usedRange.Cells[rowIndex, columnIndex]).Text.ToString();
                             var insType = ins.GetType();
-                            var fieldName = variableName.Replace("_", "") + "_";
-                            fieldName = fieldName.Substring(0, 1).ToLower() + fieldName.Substring(1);
+                            var fieldNameSplit = variableName.Split('_');// .Replace("_", "") + "_";
+                            string fieldName = "";
+                            for (int i = 0; i < fieldNameSplit.Length; i++)
+                            {
+                                fieldName += fieldNameSplit[i].Substring(0, 1).ToUpper() +
+                                             fieldNameSplit[i].Substring(1);
+                            }
+                            fieldName = fieldName.Substring(0, 1).ToLower() + fieldName.Substring(1) + "_";
                             FieldInfo insField =
                                 insType.GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance);
+                            if (insField == null)
+                            {
+                                Log.Info($"{clzData.DataClzName}中找不到列{variableName}对应的属性{fieldName}");
+                                continue;
+                            }
                             var value = GetVariableValue(variableType, variableValue);
                             insField.SetValue(ins, value);
                         }
