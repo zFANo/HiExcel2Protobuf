@@ -22,12 +22,12 @@ namespace HiProtobufCommandLine
         private const string PARAM_EXCEL_LONG = "--excel";
         private const string PARAM_CSC_LONG = "--csc";
 
-        private const string PARAM_EXPORT_CS = "-exportCS";
-        private const string PARAM_EXPORT_CPP = "-exportCpp";
-        private const string PARAM_EXPORT_GO = "-exportGo";
-        private const string PARAM_EXPORT_JAVA = "-exportJava";
-        private const string PARAM_EXPORT_PYTHON = "-exportPython";
-        private const string PARAM_EXPORT_DATA = "-exportData";
+        private const string PARAM_EXPORT_CS = "-exportcs";
+        private const string PARAM_EXPORT_CPP = "-exportcpp";
+        private const string PARAM_EXPORT_GO = "-exportgo";
+        private const string PARAM_EXPORT_JAVA = "-exportjava";
+        private const string PARAM_EXPORT_PYTHON = "-exportpython";
+        private const string PARAM_EXPORT_DATA = "-exportdata";
         
         private static string[] HELP_INFO =
         {

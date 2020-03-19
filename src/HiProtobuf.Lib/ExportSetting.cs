@@ -27,13 +27,13 @@
 
         private ExportSetting()
         {
-            ExportCs = true;
-            ExportCpp = true;
-            ExportGo = true;
-            ExportJava = true;
-            ExportPython = true;
+            ExportCs = false;
+            ExportCpp = false;
+            ExportGo = false;
+            ExportJava = false;
+            ExportPython = false;
 
-            ExportData = true;
+            ExportData = false;
         }
     }
 }
