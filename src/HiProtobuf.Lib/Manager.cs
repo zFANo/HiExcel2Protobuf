@@ -37,12 +37,26 @@ namespace HiProtobuf.Lib
             Log.Info("开始生成语言");
             new LanguageGenerator().Process();
             Log.Info("生成语言结束");
-            Log.Info("开始编译语言");
-            new Compiler().Process();
-            Log.Info("编译语言结束");
-            Log.Info("开始生成数据");
-            new DataHandler().Process();
-            Log.Info("生成数据结束");
+            if (ExportSetting.Instance.ExportCs)
+            {
+                Log.Info("开始编译CS");
+                new Compiler().Process();
+                Log.Info("编译CS结束");
+            }
+
+            if (ExportSetting.Instance.ExportData)
+            {
+                if (ExportSetting.Instance.ExportCs)
+                {
+                    Log.Info("开始生成数据");
+                    new DataHandler().Process();
+                    Log.Info("生成数据结束");
+                }
+                else
+                {
+                    Log.Info("未能导出表数据，功能依赖于<导出CS>。要导出表数据必须选择<导出CS>");
+                }
+            }
         }
     }
 }

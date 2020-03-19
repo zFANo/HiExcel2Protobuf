@@ -59,6 +59,7 @@
     <Compile Include="Common.cs" />
     <Compile Include="DataHandler.cs" />
     <Compile Include="DataInfo.cs" />
+    <Compile Include="ExportSetting.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="LanguageGenerator.cs" />
     <Compile Include="Manager.cs" />

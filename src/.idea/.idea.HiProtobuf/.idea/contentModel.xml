@@ -20,6 +20,7 @@
         <e p="Compiler.cs" t="Include" />
         <e p="DataHandler.cs" t="Include" />
         <e p="DataInfo.cs" t="Include" />
+        <e p="ExportSetting.cs" t="Include" />
         <e p="HiProtobuf.Lib.csproj" t="IncludeRecursive" />
         <e p="LanguageGenerator.cs" t="Include" />
         <e p="Manager.cs" t="Include" />
