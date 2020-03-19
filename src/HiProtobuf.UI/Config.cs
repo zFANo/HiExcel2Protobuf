@@ -14,7 +14,7 @@ namespace HiProtobuf.UI
 {
     internal static class Config
     {
-        private static string _path = Environment.CurrentDirectory + "/Config.xml";
+        private static string _path = AppDomain.CurrentDomain.BaseDirectory + "/Config.xml";
 
         internal static void Load()
         {

@@ -29,12 +29,12 @@ namespace HiProtobuf.Lib
         /// <summary>
         /// protobuf dll
         /// </summary>
-        public static readonly string Protobuf_Dll_Path = Environment.CurrentDirectory + @"\Google.Protobuf.dll";
+        public static readonly string Protobuf_Dll_Path = AppDomain.CurrentDomain.BaseDirectory + @"\Google.Protobuf.dll";
 
         /// <summary>
         /// protoc路径
         /// </summary>
-        public static readonly string Protoc_Path = Environment.CurrentDirectory + @"\protoc-3.8.0-win64\bin\protoc.exe";
+        public static readonly string Protoc_Path = AppDomain.CurrentDomain.BaseDirectory + @"\protoc-3.8.0-win64\bin\protoc.exe";
 
         /// <summary>
         /// Proto文件存放目录
